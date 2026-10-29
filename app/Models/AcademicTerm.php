@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use App\Domain\Tenancy\Traits\BelongsToTenant;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class AcademicTerm extends Model
+{
+    use HasUuids, BelongsToTenant;
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date'   => 'date',
+        'is_active'  => 'boolean',
+    ];
+
+    public function facultyLoads(): HasMany
+    {
+        return $this->hasMany(FacultyLoad::class);
+    }
+}
+
