@@ -54,4 +54,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('/users/{id}', [UserManagementController::class, 'destroy']);
         Route::put('/roles/{roleId}/permissions', [UserManagementController::class, 'updateRolePermissions']);
     });
+
+    // Philippine HR & Payroll Core Modules APIs
+    Route::prefix('api/v1/modules')->group(function () {
+        Route::get('/people', [\App\Http\Controllers\HrisModulesController::class, 'getPeopleData']);
+        Route::get('/time-leave', [\App\Http\Controllers\HrisModulesController::class, 'getTimeLeaveData']);
+        Route::get('/payroll-suite', [\App\Http\Controllers\HrisModulesController::class, 'getPayrollSuiteData']);
+        Route::get('/recruitment', [\App\Http\Controllers\HrisModulesController::class, 'getRecruitmentData']);
+    });
 });

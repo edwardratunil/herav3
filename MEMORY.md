@@ -121,10 +121,24 @@ The system is designed with strict tenant isolation, immutable statutory calcula
       - `employee`: Restricted to **Employee Self-Service (ESS)** (DTR, leave filing, teaching workload, encrypted payslips).
       - `super-admin`: Retains full platform management, user administration, tenant setup, and role access matrix.
     - Controller endpoints in [`UserManagementController`](file:///c:/xampp/htdocs/herav3/app/Http/Controllers/UserManagementController.php) fortified with 403 checks: `users.manage`, `updateRolePermissions`, `toggleAccess`, and `destroy`.
-  - Frontend restored strictly to reference design layout (`media_1793258626535_43b9de50.jpg`):
-    - Clean top bar with wide search input ("Find percipient..."), notifications, and profile pill on the right.
-    - Reference sidebar navigation: **Dashboard**, **Intake**, **Participant**, and **Setting** (active).
-    - Setting screen with tabs: **Organization**, **User & Permissions**, **Roles & Role Access**, **Compliance**, and exact User Details table.
-  - Automated test suite passing (25 tests, 149 assertions across Unit and Feature suites).
+  - Comprehensive Philippine Educational HR & Payroll Modules Added (Preserving Clean SaaS Theme):
+    - Added [`HrisModulesController`](file:///c:/xampp/htdocs/herav3/app/Http/Controllers/HrisModulesController.php) with APIs:
+      - `GET /api/v1/modules/people`: Personnel records with 201/PDS data, Itemized Plantilla (SG-12 to SG-22), Faculty teaching load allocations, and movement history.
+      - `GET /api/v1/modules/time-leave`: Daily Time Records (DTR) from ZK-Teco terminals, Leave balances & two-tier approval workflow, Philippine 2026 Statutory Holidays, and Overtime computations.
+      - `GET /api/v1/modules/payroll-suite`: Semi-monthly payroll runs, Statutory Remittances (BIR 1601-C, SSS R-3 + WISP, PhilHealth EPRS, Pag-IBIG MCRF), Government Loans amortization ledger, and Bank accounts.
+  - Sidebar Interactive Dropdown Accordions (All 34 exact modules from user reference images):
+    - **PEOPLE (9 items)**:
+      - Employees, PDS / 201 File, Positions, Plantilla, Plantilla Report, Compensation, Assignments, Movements & History, Personal Changes.
+    - **TIME & LEAVE (15 items)**:
+      - Attendance Control, Attendance Exceptions, Daily Time Records, Monthly DTR, Holiday Management, Leave Approvals, Attendance Setup, DTR Register, My Attendance, Leave Overview, Leave Register, Leave Calendar, My Leave, Overtime, Secure Attendance.
+    - **PAYROLL (10 items)**:
+      - Payroll Rules, Payroll Simulator, Payroll Runs, Payroll Register, Payroll Approvals, Payroll Payslips, Benefits, Employee Loans, Remittances, Bank Accounts.
+    - **RECRUITMENT (31 items - from latest images 4 & 5)**:
+      - Vacancies, Recruitment, Requisitions, Job Postings, Applicants, ATS Pipeline, Interviews, Assessments, Job Offers, Pre-employment Requirements, Hire & Onboarding, Reports & Analytics, Performance Dashboard, Performance Cycles, Performance Templates, Performance Plans, Performance Reviews, Performance Calibration, Final Ratings, Development Plans, Improvement Plans, Performance Reports, Performance Security, Performance Certification, Template Studio, Placeholder Library, HR Service Requests, Cache & Performance, Pipeline Settings, Recruitment Security, Recruitment Certification.
+    - **CORE**: Dashboard & Setting (User Details, Roles & Role Access, Organization, Compliance).
+    - Each group has an animated expand/collapse dropdown toggle (`^` / `v`) with item count badges (9, 15, 10, 31), smooth active selection, and dedicated workspace views in the clean, light SaaS theme.
+  - Added Backend API endpoint in [`HrisModulesController`](file:///c:/xampp/htdocs/herav3/app/Http/Controllers/HrisModulesController.php):
+    - `GET /api/v1/modules/recruitment`: Vacancies, Plantilla requisitions, ATS pipeline, Interview panels, Assessments, Job offers, Philippine Civil Service Pre-employment checklist (NBI, PDS Form 212, Medical fit-to-work, TOR, SSS, PhilHealth, Pag-IBIG), SPMS IPCR/OPCR Academic evaluation cycles, Final ratings, Document template studio, Placeholders, HR service requests, and System cache telemetry.
+  - Automated test suite passing (26 tests, 182 assertions across Unit and Feature suites).
 - [ ] Next: Ready for Pilot Deployment, Documentation Packaging, or Initial Git Commit.
 

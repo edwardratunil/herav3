@@ -1,66 +1,203 @@
 <template>
   <div class="flex h-screen bg-[#F8F9FA] text-slate-800 antialiased font-sans overflow-hidden">
-    <!-- 1. LEFT SIDEBAR (Matching Reference Design) -->
-    <aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 select-none">
+    <!-- 1. LEFT SIDEBAR WITH INTERACTIVE ACCORDION DROPDOWNS -->
+    <aside class="w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between shrink-0 select-none overflow-y-auto">
       <div>
         <!-- Logo (Matching "SETUP LOGO" in reference) -->
-        <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-100">
+        <div class="h-16 flex items-center gap-3 px-6 border-b border-slate-100 shrink-0">
           <div class="w-8 h-8 rounded-lg bg-black text-white flex items-center justify-center font-black text-lg">
             ✱
           </div>
           <div>
             <span class="font-bold tracking-tight text-slate-900 text-sm uppercase block leading-none">SETUP LOGO</span>
-            <span class="text-[10px] text-slate-400 font-mono">HERA PLATFORM</span>
+            <span class="text-[10px] text-slate-400 font-mono">HERA HR & PAYROLL</span>
           </div>
         </div>
 
-        <!-- Navigation Menu -->
-        <div class="px-4 py-6 space-y-6">
+        <!-- Navigation Menu Groups -->
+        <div class="px-3 py-4 space-y-4">
+          <!-- CORE MENU -->
           <div>
-            <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">MENU</span>
-            <nav class="mt-2 space-y-1">
-              <!-- Dashboard -->
+            <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">CORE</span>
+            <nav class="mt-1 space-y-0.5">
               <button
                 type="button"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition"
-                :class="currentSection === 'payroll' ? 'text-slate-900 bg-slate-100 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'"
-                @click="currentSection = 'payroll'"
+                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition"
+                :class="activeItem === 'dashboard' ? 'text-slate-900 bg-slate-100 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = 'dashboard'"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
                 <span>Dashboard</span>
               </button>
 
-              <!-- Intake / Institutions -->
               <button
                 type="button"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition"
-                :class="currentSection === 'institutions' ? 'text-slate-900 bg-slate-100 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'"
-                @click="currentSection = 'institutions'"
+                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold transition"
+                :class="activeItem === 'setting' ? 'text-slate-900 bg-slate-100 shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = 'setting'"
               >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                <span>Intake</span>
-              </button>
-
-              <!-- Participant / Personnel -->
-              <button
-                type="button"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition"
-                :class="currentSection === 'personnel' ? 'text-slate-900 bg-slate-100 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'"
-                @click="currentSection = 'personnel'"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                <span>Participant</span>
-              </button>
-
-              <!-- Setting (Active item matching reference image) -->
-              <button
-                type="button"
-                class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition"
-                :class="currentSection === 'settings' ? 'text-slate-900 bg-slate-100 shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'"
-                @click="currentSection = 'settings'"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 <span>Setting</span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- 1. PEOPLE DROPDOWN (Exact 9 items from Image 1) -->
+          <!-- ============================================ -->
+          <div>
+            <button
+              type="button"
+              class="w-full px-3 py-1.5 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition"
+              @click="toggleDropdown('people')"
+            >
+              <div class="flex items-center gap-2">
+                <span>PEOPLE</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 font-mono">9</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="openDropdowns.people ? 'rotate-180' : ''"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Content (All 9 items) -->
+            <nav v-show="openDropdowns.people" class="mt-1 space-y-0.5 pl-2 border-l border-slate-100 ml-3">
+              <button
+                v-for="sub in peopleModules"
+                :key="sub.id"
+                type="button"
+                class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition text-left"
+                :class="activeItem === sub.id ? 'text-slate-900 bg-slate-100 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = sub.id"
+              >
+                <span class="text-sm shrink-0">{{ sub.icon }}</span>
+                <span class="truncate">{{ sub.label }}</span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- ================================================== -->
+          <!-- 2. TIME & LEAVE DROPDOWN (Exact 15 items from Image 2) -->
+          <!-- ================================================== -->
+          <div>
+            <button
+              type="button"
+              class="w-full px-3 py-1.5 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition"
+              @click="toggleDropdown('time_leave')"
+            >
+              <div class="flex items-center gap-2">
+                <span>TIME & LEAVE</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 font-mono">15</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="openDropdowns.time_leave ? 'rotate-180' : ''"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Content (All 15 items) -->
+            <nav v-show="openDropdowns.time_leave" class="mt-1 space-y-0.5 pl-2 border-l border-slate-100 ml-3">
+              <button
+                v-for="sub in timeLeaveModules"
+                :key="sub.id"
+                type="button"
+                class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition text-left"
+                :class="activeItem === sub.id ? 'text-slate-900 bg-slate-100 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = sub.id"
+              >
+                <span class="text-sm shrink-0">{{ sub.icon }}</span>
+                <span class="truncate">{{ sub.label }}</span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- ============================================== -->
+          <!-- 3. PAYROLL DROPDOWN (Exact 10 items from Image 3) -->
+          <!-- ============================================== -->
+          <div>
+            <button
+              type="button"
+              class="w-full px-3 py-1.5 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition"
+              @click="toggleDropdown('payroll')"
+            >
+              <div class="flex items-center gap-2">
+                <span>PAYROLL</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 font-mono">10</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="openDropdowns.payroll ? 'rotate-180' : ''"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Content (All 10 items) -->
+            <nav v-show="openDropdowns.payroll" class="mt-1 space-y-0.5 pl-2 border-l border-slate-100 ml-3">
+              <button
+                v-for="sub in payrollModules"
+                :key="sub.id"
+                type="button"
+                class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition text-left"
+                :class="activeItem === sub.id ? 'text-slate-900 bg-slate-100 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = sub.id"
+              >
+                <span class="text-sm shrink-0">{{ sub.icon }}</span>
+                <span class="truncate">{{ sub.label }}</span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- ================================================== -->
+          <!-- 4. RECRUITMENT DROPDOWN (Exact 31 items from Images 4 & 5) -->
+          <!-- ================================================== -->
+          <div>
+            <button
+              type="button"
+              class="w-full px-3 py-1.5 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-50 transition"
+              @click="toggleDropdown('recruitment')"
+            >
+              <div class="flex items-center gap-2">
+                <span>RECRUITMENT</span>
+                <span class="text-[9px] px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-500 font-mono">31</span>
+              </div>
+              <svg
+                class="w-3.5 h-3.5 transition-transform duration-200"
+                :class="openDropdowns.recruitment ? 'rotate-180' : ''"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Dropdown Content (All 31 items from user's images in exact order) -->
+            <nav v-show="openDropdowns.recruitment" class="mt-1 space-y-0.5 pl-2 border-l border-slate-100 ml-3">
+              <button
+                v-for="sub in recruitmentModules"
+                :key="sub.id"
+                type="button"
+                class="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-xs transition text-left"
+                :class="activeItem === sub.id ? 'text-slate-900 bg-slate-100 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+                @click="activeItem = sub.id"
+              >
+                <span class="text-sm shrink-0">{{ sub.icon }}</span>
+                <span class="truncate">{{ sub.label }}</span>
               </button>
             </nav>
           </div>
@@ -68,16 +205,16 @@
       </div>
 
       <!-- Bottom Help Menu -->
-      <div class="p-4 border-t border-slate-100">
-        <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">HELP</span>
-        <div class="mt-2 space-y-1">
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-900 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      <div class="p-4 border-t border-slate-100 shrink-0">
+        <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">HELP</span>
+        <div class="mt-1 space-y-0.5">
+          <a href="#" class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition">
+            <span>📖</span>
             <span>User Guide</span>
           </a>
-          <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-900 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span>Suport</span>
+          <a href="#" class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition">
+            <span>💬</span>
+            <span>Support</span>
           </a>
         </div>
       </div>
@@ -85,7 +222,7 @@
 
     <!-- 2. MAIN WORKSPACE -->
     <div class="flex-1 flex flex-col overflow-hidden">
-      <!-- TOP BAR (Exact layout from reference image) -->
+      <!-- TOP BAR (Exact layout from user's original reference) -->
       <header class="h-16 bg-white border-b border-slate-200/80 px-8 flex items-center justify-between shrink-0">
         <!-- Search Input matching reference image -->
         <div class="relative w-80">
@@ -130,11 +267,10 @@
       <!-- PAGE CONTENT (Scrollable) -->
       <main class="flex-1 overflow-y-auto p-8 space-y-6">
 
-        <!-- ========================================== -->
-        <!-- SECTION: SETTINGS (Matching Reference Image) -->
-        <!-- ========================================== -->
-        <div v-if="currentSection === 'settings'" class="space-y-6">
-          <!-- Page Title & Top Actions (Matching reference layout) -->
+        <!-- ======================================================== -->
+        <!-- VIEW 1: SETTING (Exact layout from user's original reference) -->
+        <!-- ======================================================== -->
+        <div v-if="activeItem === 'setting'" class="space-y-6">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Setting</h1>
@@ -166,7 +302,7 @@
               type="button"
               class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition"
               :class="activeSubTab === 'organization' ? 'bg-slate-100 text-slate-900 font-bold' : 'text-slate-500 hover:text-slate-800'"
-              @click="activeSubTab = 'organization'"
+              @click="activeSubTab === 'organization'"
             >
               <span>📁</span>
               <span>Organization</span>
@@ -176,7 +312,7 @@
               type="button"
               class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition"
               :class="activeSubTab === 'users' ? 'bg-slate-100 text-slate-900 font-bold' : 'text-slate-500 hover:text-slate-800'"
-              @click="activeSubTab = 'users'"
+              @click="activeSubTab === 'users'"
             >
               <span>👤</span>
               <span>User & Permissions</span>
@@ -186,7 +322,7 @@
               type="button"
               class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition"
               :class="activeSubTab === 'roles' ? 'bg-slate-100 text-slate-900 font-bold' : 'text-slate-500 hover:text-slate-800'"
-              @click="activeSubTab = 'roles'"
+              @click="activeSubTab === 'roles'"
             >
               <span>🔐</span>
               <span>Roles & Role Access</span>
@@ -196,14 +332,14 @@
               type="button"
               class="px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition"
               :class="activeSubTab === 'compliance' ? 'bg-slate-100 text-slate-900 font-bold' : 'text-slate-500 hover:text-slate-800'"
-              @click="activeSubTab = 'compliance'"
+              @click="activeSubTab === 'compliance'"
             >
               <span>⚖️</span>
               <span>Compliance</span>
             </button>
           </div>
 
-          <!-- TAB 1: USER DETAILS TABLE (EXACT REFERENCE DESIGN) -->
+          <!-- TAB: USER DETAILS TABLE (EXACT REFERENCE DESIGN) -->
           <div v-if="activeSubTab === 'users'" class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
             <!-- Table Controls Header -->
             <div class="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100">
@@ -239,7 +375,7 @@
               </div>
             </div>
 
-            <!-- The Data Table (Matching Reference Columns and Styling) -->
+            <!-- The Data Table -->
             <div class="overflow-x-auto">
               <table class="w-full text-left text-xs border-collapse">
                 <thead class="bg-slate-50/75 text-slate-500 font-semibold border-b border-slate-100 uppercase tracking-wider text-[11px]">
@@ -262,7 +398,6 @@
                     <td class="px-4 py-3.5">
                       <input type="checkbox" class="rounded border-slate-300 text-black focus:ring-black" />
                     </td>
-                    <!-- User Name with Avatar & Subtitle -->
                     <td class="px-4 py-3.5">
                       <div class="flex items-center gap-3">
                         <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs uppercase border border-slate-200 shrink-0">
@@ -363,7 +498,7 @@
             </div>
           </div>
 
-          <!-- TAB 2: ROLES & ROLE ACCESS MATRIX -->
+          <!-- TAB: ROLES & ROLE ACCESS MATRIX -->
           <div v-if="activeSubTab === 'roles'" class="space-y-6">
             <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
               <h2 class="text-base font-bold text-slate-900 mb-1">Platform Roles & Permission Matrix</h2>
@@ -391,7 +526,6 @@
                     {{ role.description }}
                   </p>
 
-                  <!-- Permission Checklist -->
                   <div class="border-t border-slate-100 pt-3 space-y-1.5">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Assigned Permissions</span>
                     <div class="grid grid-cols-2 gap-2 text-xs">
@@ -415,14 +549,9 @@
             </div>
           </div>
 
-          <!-- TAB 3: ORGANIZATION -->
+          <!-- TAB: ORGANIZATION -->
           <div v-if="activeSubTab === 'organization'" class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div>
-                <h2 class="text-base font-bold text-slate-900">Registered Campuses & Tenants</h2>
-                <p class="text-xs text-slate-500">Manage institutions, campus branches, and academic terms.</p>
-              </div>
-            </div>
+            <h2 class="text-base font-bold text-slate-900">Registered Campuses & Tenants</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-2">
               <div v-for="t in tenants" :key="t.id" class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2">
                 <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full inline-block">{{ t.code }}</span>
@@ -432,76 +561,1001 @@
             </div>
           </div>
 
-          <!-- TAB 4: COMPLIANCE -->
+          <!-- TAB: COMPLIANCE -->
           <div v-if="activeSubTab === 'compliance'" class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div>
-                <h2 class="text-base font-bold text-slate-900">Philippine Statutory Compliance Matrix</h2>
-                <p class="text-xs text-slate-500">Active legislative and administrative policies in effect across institution types.</p>
-              </div>
-            </div>
+            <h2 class="text-base font-bold text-slate-900">Philippine Statutory Compliance Matrix</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 text-xs">
               <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
                 <span class="font-bold text-slate-900 block text-sm">BIR Withholding Tax</span>
-                <p class="text-slate-600">RA 10963 (TRAIN Law) - Revised Withholding Tax Table 2023-Present. Pure decimal bracket tiering with zero tax up to ₱20,833/month.</p>
+                <p class="text-slate-600">RA 10963 (TRAIN Law) - Revised Withholding Tax Table 2023-Present.</p>
               </div>
               <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
                 <span class="font-bold text-slate-900 block text-sm">SSS Social Security</span>
-                <p class="text-slate-600">RA 11199 (Social Security Act of 2018) - 14% Contribution Rate (9.5% ER / 4.5% EE) capped at ₱30,000 MSC, with Mandatory Provident Fund (WISP).</p>
+                <p class="text-slate-600">RA 11199 - 14% Contribution (9.5% ER / 4.5% EE) capped at ₱30k MSC.</p>
               </div>
               <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
-                <span class="font-bold text-slate-900 block text-sm">PhilHealth National Health Insurance</span>
-                <p class="text-slate-600">RA 11223 (Universal Health Care) - 5% Premium Rate (2.5% ER / 2.5% EE) on monthly basic salary with floor ₱10,000 and ceiling ₱100,000.</p>
+                <span class="font-bold text-slate-900 block text-sm">PhilHealth National Health</span>
+                <p class="text-slate-600">RA 11223 - 5% Premium Rate (2.5% ER / 2.5% EE) floor ₱10k, ceiling ₱100k.</p>
               </div>
               <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
                 <span class="font-bold text-slate-900 block text-sm">HDMF Pag-IBIG Fund</span>
-                <p class="text-slate-600">HDMF Circular No. 460 - 2% Premium with ₱10,000 Cap (₱200 ER / ₱200 EE Max) effective Feb 2024.</p>
+                <p class="text-slate-600">Circular No. 460 - 2% Premium with ₱10,000 Cap (₱200 ER / ₱200 EE Max).</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- SECTION: DASHBOARD / PAYROLL -->
-        <div v-else-if="currentSection === 'payroll'" class="space-y-6">
+        <!-- ======================================================== -->
+        <!-- VIEW 2: PEOPLE MODULES (When a People sub-item is clicked) -->
+        <!-- ======================================================== -->
+        <div v-else-if="isPeopleModule(activeItem)" class="space-y-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Semi-Monthly Payroll Management</h1>
-              <span class="text-xs font-mono text-slate-400">HERA PLATFORM ADMIN • PILOT RECONCILIATION & DISBURSEMENT</span>
+              <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">PEOPLE & PERSONNEL</div>
+              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">{{ getModuleTitle(activeItem) }}</h1>
+            </div>
+            <button
+              type="button"
+              class="px-4 py-2 bg-black hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-2 shadow-sm transition"
+              @click="openAddUserModal"
+            >
+              <span>+ Add Entry</span>
+            </button>
+          </div>
+
+          <!-- Employees or 201 File -->
+          <div v-if="activeItem === 'employees' || activeItem === 'pds_201'" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-700">Official Personnel 201 Directory</span>
+              <span class="text-xs text-slate-400 font-mono">{{ peopleData.employees?.length || 0 }} Records</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-4 py-3">Emp #</th>
+                    <th class="px-4 py-3">Full Name</th>
+                    <th class="px-4 py-3">Department</th>
+                    <th class="px-4 py-3">Position / Rank</th>
+                    <th class="px-4 py-3">Contract</th>
+                    <th class="px-4 py-3">Monthly Base</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3 text-center">PDS / 201</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr v-for="emp in peopleData.employees" :key="emp.id" class="hover:bg-slate-50">
+                    <td class="px-4 py-3 font-mono text-slate-600">{{ emp.employee_number }}</td>
+                    <td class="px-4 py-3 font-bold text-slate-900">{{ emp.name }}</td>
+                    <td class="px-4 py-3 text-slate-600">{{ emp.department }}</td>
+                    <td class="px-4 py-3 font-medium text-slate-800">{{ emp.position }}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded bg-slate-100 font-mono text-[10px]">{{ emp.contract_type }}</span></td>
+                    <td class="px-4 py-3 font-mono font-semibold text-slate-900">₱{{ emp.base_rate }}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">{{ emp.status }}</span></td>
+                    <td class="px-4 py-3 text-center">
+                      <button
+                        type="button"
+                        class="px-2.5 py-1 rounded bg-black text-white text-[11px] font-semibold hover:bg-slate-800"
+                        @click="selectedPds = emp"
+                      >
+                        View 201
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <PayrollGrid />
+
+          <!-- Positions or Plantilla -->
+          <div v-else-if="activeItem === 'positions' || activeItem === 'plantilla' || activeItem === 'plantilla_report'" class="space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+              <h2 class="text-sm font-bold text-slate-900">Itemized Plantilla of Personnel (Philippine Government & Academic Standard)</h2>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                    <tr>
+                      <th class="px-4 py-3">Plantilla Item</th>
+                      <th class="px-4 py-3">Position Title</th>
+                      <th class="px-4 py-3">Salary Grade</th>
+                      <th class="px-4 py-3">Authorized Rate</th>
+                      <th class="px-4 py-3">Incumbent</th>
+                      <th class="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="item in peopleData.plantilla" :key="item.item_number">
+                      <td class="px-4 py-3 font-mono font-bold text-slate-700">{{ item.item_number }}</td>
+                      <td class="px-4 py-3 font-semibold text-slate-900">{{ item.position_title }}</td>
+                      <td class="px-4 py-3 font-mono text-slate-600">{{ item.salary_grade }}</td>
+                      <td class="px-4 py-3 font-mono text-slate-900 font-bold">{{ item.authorized_rate }}</td>
+                      <td class="px-4 py-3 text-slate-800">{{ item.incumbent }}</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold" :class="item.status === 'Filled' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'">
+                          {{ item.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assignments -->
+          <div v-else-if="activeItem === 'assignments'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Faculty Academic Workload & Teaching Allocations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div v-for="asg in peopleData.assignments" :key="asg.course_code" class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2">
+                <span class="text-xs font-mono font-bold bg-black text-white px-2 py-0.5 rounded">{{ asg.course_code }}</span>
+                <h4 class="font-bold text-slate-900 text-sm">{{ asg.course_title }}</h4>
+                <p class="text-xs text-slate-600">Faculty: {{ asg.faculty_name }}</p>
+                <div class="text-[11px] text-slate-500 border-t border-slate-200/60 pt-2 space-y-0.5">
+                  <div>Section: {{ asg.section }} • Room: {{ asg.room }}</div>
+                  <div class="font-bold text-slate-800">{{ asg.total_load }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Movements & History -->
+          <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Personnel Career Movements & Notice of Step Increments (NOSI)</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-4 py-3">Employee</th>
+                    <th class="px-4 py-3">Movement Type</th>
+                    <th class="px-4 py-3">From</th>
+                    <th class="px-4 py-3">To</th>
+                    <th class="px-4 py-3">Effectivity</th>
+                    <th class="px-4 py-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 font-mono">
+                  <tr v-for="mov in peopleData.movements" :key="mov.employee">
+                    <td class="px-4 py-3 font-sans font-bold text-slate-900">{{ mov.employee }}</td>
+                    <td class="px-4 py-3 font-sans text-slate-700">{{ mov.type }}</td>
+                    <td class="px-4 py-3 text-slate-500">{{ mov.from }}</td>
+                    <td class="px-4 py-3 font-bold text-emerald-700">{{ mov.to }}</td>
+                    <td class="px-4 py-3 text-slate-600">{{ mov.effectivity }}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-800">{{ mov.status }}</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- SECTION: PARTICIPANT / PERSONNEL -->
-        <div v-else-if="currentSection === 'personnel'" class="space-y-6">
+        <!-- ======================================================== -->
+        <!-- VIEW 3: TIME & LEAVE MODULES                             -->
+        <!-- ======================================================== -->
+        <div v-else-if="isTimeLeaveModule(activeItem)" class="space-y-6">
           <div class="flex items-center justify-between">
             <div>
-              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Faculty & Personnel Self-Service</h1>
-              <span class="text-xs font-mono text-slate-400">TEACHING WORKLOAD, DTR LOGS & ENCRYPTED PAYSLIPS</span>
+              <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">TIME & ATTENDANCE</div>
+              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">{{ getModuleTitle(activeItem) }}</h1>
+            </div>
+            <button
+              type="button"
+              class="px-4 py-2 bg-black hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-2 shadow-sm transition"
+            >
+              <span>+ Record Time / File Leave</span>
+            </button>
+          </div>
+
+          <!-- DTR Logs / Attendance Exceptions -->
+          <div v-if="['attendance_control', 'attendance_exceptions', 'daily_time_records', 'monthly_dtr', 'dtr_register', 'my_attendance', 'secure_attendance'].includes(activeItem)" class="space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700">Official Civil Service Daily Time Record (CS Form 48)</span>
+                <span class="text-xs text-slate-400 font-mono">{{ timeLeaveData.dtr_logs?.length || 0 }} Biometric Events</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs font-mono">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100 font-sans">
+                    <tr>
+                      <th class="px-4 py-3">Date</th>
+                      <th class="px-4 py-3">Employee</th>
+                      <th class="px-4 py-3">Department</th>
+                      <th class="px-4 py-3">Shift</th>
+                      <th class="px-4 py-3">Time In</th>
+                      <th class="px-4 py-3">Time Out</th>
+                      <th class="px-4 py-3">Late (Mins)</th>
+                      <th class="px-4 py-3">Undertime</th>
+                      <th class="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="dtr in timeLeaveData.dtr_logs" :key="dtr.id" class="hover:bg-slate-50">
+                      <td class="px-4 py-3 text-slate-600">{{ dtr.date }}</td>
+                      <td class="px-4 py-3 font-sans font-bold text-slate-900">{{ dtr.employee }}</td>
+                      <td class="px-4 py-3 font-sans text-slate-600">{{ dtr.department }}</td>
+                      <td class="px-4 py-3 font-sans text-slate-700">{{ dtr.shift }}</td>
+                      <td class="px-4 py-3 text-emerald-700 font-bold">{{ dtr.time_in }}</td>
+                      <td class="px-4 py-3 text-blue-700 font-bold">{{ dtr.time_out }}</td>
+                      <td class="px-4 py-3" :class="dtr.tardiness_mins > 0 ? 'text-rose-600 font-bold' : 'text-slate-400'">{{ dtr.tardiness_mins }} m</td>
+                      <td class="px-4 py-3 text-slate-400">{{ dtr.undertime_mins }} m</td>
+                      <td class="px-4 py-3 font-sans">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold" :class="dtr.status === 'Present' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'">
+                          {{ dtr.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <EmployeeSelfService />
+
+          <!-- Leave Management -->
+          <div v-else-if="['leave_approvals', 'leave_overview', 'leave_register', 'leave_calendar', 'my_leave'].includes(activeItem)" class="space-y-6">
+            <!-- Leave Balances -->
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div v-for="bal in timeLeaveData.leave_balances" :key="bal.type" class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                <span class="text-xs font-semibold text-slate-400 uppercase">{{ bal.type }}</span>
+                <div class="text-2xl font-bold text-slate-900 font-mono">{{ bal.balance }} Days</div>
+                <div class="text-[11px] text-slate-500 font-mono">Used: {{ bal.used }} • Accruing 1.25/mo</div>
+              </div>
+            </div>
+
+            <!-- Leave Requests -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700">Official Application for Leave (CSC Form 6)</span>
+                <span class="text-xs text-slate-400 font-mono">{{ timeLeaveData.leave_requests?.length || 0 }} Filings</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                    <tr>
+                      <th class="px-4 py-3">Employee</th>
+                      <th class="px-4 py-3">Leave Type</th>
+                      <th class="px-4 py-3">Start Date</th>
+                      <th class="px-4 py-3">End Date</th>
+                      <th class="px-4 py-3">Days</th>
+                      <th class="px-4 py-3">Reason</th>
+                      <th class="px-4 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="lv in timeLeaveData.leave_requests" :key="lv.id" class="hover:bg-slate-50">
+                      <td class="px-4 py-3 font-bold text-slate-900">{{ lv.employee }}</td>
+                      <td class="px-4 py-3 font-semibold text-slate-700">{{ lv.leave_type }}</td>
+                      <td class="px-4 py-3 font-mono text-slate-600">{{ lv.start_date }}</td>
+                      <td class="px-4 py-3 font-mono text-slate-600">{{ lv.end_date }}</td>
+                      <td class="px-4 py-3 font-mono font-bold">{{ lv.days_requested }}</td>
+                      <td class="px-4 py-3 text-slate-500">{{ lv.reason }}</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold" :class="lv.status === 'Approved' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'">
+                          {{ lv.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Holiday Management -->
+          <div v-else-if="activeItem === 'holiday_management'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Philippine Proclamation Regular & Special Non-Working Holidays (2026)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div v-for="h in timeLeaveData.holidays" :key="h.name" class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2 text-xs">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-black text-white font-mono">{{ h.type }}</span>
+                <h4 class="font-bold text-slate-900 text-sm">{{ h.name }}</h4>
+                <div class="font-mono text-slate-600 font-semibold">{{ h.date }}</div>
+                <div class="text-[11px] text-slate-500">Premium Rate: {{ h.premium }}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Overtime -->
+          <div v-else-if="activeItem === 'overtime'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Overtime Authority Authorizations (DOLE / CSC Standard)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="ot in timeLeaveData.overtime" :key="ot.employee" class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2 text-xs font-mono">
+                <div class="flex items-center justify-between">
+                  <span class="font-sans font-bold text-slate-900 text-sm">{{ ot.employee }}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">{{ ot.status }}</span>
+                </div>
+                <div class="text-slate-600 font-sans">Project: {{ ot.task }}</div>
+                <div class="text-slate-500">Date: {{ ot.date }} • Authorized Hours: {{ ot.hours }} hrs</div>
+                <div class="text-emerald-700 font-bold border-t border-slate-200/80 pt-2 font-sans">Multipliers: 125% Regular OT / 130% Rest Day</div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- SECTION: INTAKE / INSTITUTIONS -->
-        <div v-else-if="currentSection === 'institutions'" class="space-y-6">
-          <div class="bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div>
-                <h2 class="text-base font-bold text-slate-900">Registered Educational Institutions</h2>
-                <span class="text-xs text-slate-500">Multi-tenant school organizations and branch campuses</span>
+        <!-- ======================================================== -->
+        <!-- VIEW 4: PAYROLL SUITE MODULES                            -->
+        <!-- ======================================================== -->
+        <div v-else-if="isPayrollModule(activeItem)" class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">FINANCE & COMPENSATION</div>
+              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">{{ getModuleTitle(activeItem) }}</h1>
+            </div>
+            <button
+              type="button"
+              class="px-4 py-2 bg-black hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-2 shadow-sm transition"
+            >
+              <span>+ New Payroll Run</span>
+            </button>
+          </div>
+
+          <!-- Interactive Payroll Grid Component -->
+          <div v-if="['payroll_rules', 'payroll_simulator', 'payroll_runs', 'payroll_register', 'payroll_approvals', 'payroll_payslips', 'benefits'].includes(activeItem)">
+            <PayrollGrid />
+          </div>
+
+          <!-- Remittances -->
+          <div v-else-if="activeItem === 'remittances'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Philippine Statutory Authority Remittances (October 2026)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div v-for="rem in payrollSuiteData.remittances" :key="rem.form" class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-slate-900 text-sm">{{ rem.form }}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">{{ rem.period }}</span>
+                </div>
+                <div class="text-slate-600 font-medium">{{ rem.agency }}</div>
+                <p class="text-slate-500 text-[11px]">{{ rem.description }}</p>
+                <div class="border-t border-slate-200/80 pt-2 flex items-center justify-between font-mono">
+                  <span>Due: {{ rem.due_date }}</span>
+                  <span class="font-bold text-emerald-700 text-sm">{{ rem.amount_due }}</span>
+                </div>
+                <div class="text-[10px] text-slate-500">{{ rem.status }}</div>
               </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <div v-for="t in tenants" :key="t.id" class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-2">
-                <span class="text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full inline-block">{{ t.code }}</span>
-                <h3 class="font-bold text-slate-900 text-sm">{{ t.name }}</h3>
-                <p class="text-xs text-slate-500">Status: Active School Organization</p>
+          </div>
+
+          <!-- Loans -->
+          <div v-else-if="activeItem === 'employee_loans'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Government & Institutional Loan Amortization Ledger</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-4 py-3">Employee</th>
+                    <th class="px-4 py-3">Loan Type</th>
+                    <th class="px-4 py-3">Reference #</th>
+                    <th class="px-4 py-3">Principal</th>
+                    <th class="px-4 py-3">Semi-Monthly Ded.</th>
+                    <th class="px-4 py-3">Remaining Balance</th>
+                    <th class="px-4 py-3">Term End</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 font-mono">
+                  <tr v-for="ln in payrollSuiteData.loans" :key="ln.reference_number" class="hover:bg-slate-50">
+                    <td class="px-4 py-3 font-sans font-bold text-slate-900">{{ ln.employee }}</td>
+                    <td class="px-4 py-3 font-sans text-slate-700">{{ ln.loan_type }}</td>
+                    <td class="px-4 py-3 text-slate-500">{{ ln.reference_number }}</td>
+                    <td class="px-4 py-3 font-semibold">{{ ln.total_loan }}</td>
+                    <td class="px-4 py-3 text-rose-600 font-bold">-{{ ln.semi_monthly_ded }}</td>
+                    <td class="px-4 py-3 text-emerald-700 font-bold">{{ ln.remaining_balance }}</td>
+                    <td class="px-4 py-3 text-slate-500">{{ ln.term_end }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bank Accounts -->
+          <div v-else-if="activeItem === 'bank_accounts'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Corporate Bank Disbursement Transmittal Accounts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div v-for="b in payrollSuiteData.bank_accounts" :key="b.bank_name" class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2">
+                <span class="text-base">🏛️</span>
+                <h4 class="font-bold text-slate-900 text-sm">{{ b.bank_name }}</h4>
+                <div class="font-mono text-slate-600">Acct: {{ b.account_number }}</div>
+                <p class="text-[11px] text-slate-500">Format: {{ b.format }}</p>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 inline-block">{{ b.status }}</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 5: RECRUITMENT & PERFORMANCE MODULES (31 Modules)   -->
+        <!-- ======================================================== -->
+        <div v-else-if="isRecruitmentModule(activeItem)" class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">RECRUITMENT & PERFORMANCE SUITE</div>
+              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">{{ getModuleTitle(activeItem) }}</h1>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                Item: {{ activeItem }}
+              </span>
+              <button
+                type="button"
+                class="px-4 py-2 bg-black hover:bg-slate-800 text-white font-semibold rounded-xl text-xs flex items-center gap-2 shadow-sm transition"
+                @click="openAddUserModal"
+              >
+                <span>+ Action / New Record</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. Vacancies & Recruitment & Job Postings -->
+          <div v-if="['vacancies', 'recruitment', 'job_postings'].includes(activeItem)" class="space-y-6">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700">Official Plantilla Vacancies & Position Openings</span>
+                <span class="text-xs text-slate-400 font-mono">{{ recruitmentData.vacancies?.length || 0 }} Openings</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                    <tr>
+                      <th class="px-4 py-3">Vacancy Code</th>
+                      <th class="px-4 py-3">Job Title</th>
+                      <th class="px-4 py-3">Department</th>
+                      <th class="px-4 py-3">Plantilla Item</th>
+                      <th class="px-4 py-3">Salary Grade</th>
+                      <th class="px-4 py-3 text-center">Openings</th>
+                      <th class="px-4 py-3 text-center">Applicants</th>
+                      <th class="px-4 py-3">Status</th>
+                      <th class="px-4 py-3">Deadline</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="vac in recruitmentData.vacancies" :key="vac.id" class="hover:bg-slate-50">
+                      <td class="px-4 py-3 font-mono font-bold text-slate-700">{{ vac.id }}</td>
+                      <td class="px-4 py-3 font-bold text-slate-900">{{ vac.title }}</td>
+                      <td class="px-4 py-3 text-slate-600">{{ vac.department }}</td>
+                      <td class="px-4 py-3 font-mono text-slate-500">{{ vac.plantilla_item }}</td>
+                      <td class="px-4 py-3 font-semibold text-emerald-700">{{ vac.salary_grade }}</td>
+                      <td class="px-4 py-3 text-center font-bold">{{ vac.openings }}</td>
+                      <td class="px-4 py-3 text-center">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700">{{ vac.applicants }}</span>
+                      </td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          {{ vac.status }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 text-slate-500 font-mono">{{ vac.deadline }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Published Channels for Job Postings -->
+            <div v-if="activeItem === 'job_postings'" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div v-for="jp in recruitmentData.job_postings" :key="jp.title" class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">{{ jp.status }}</span>
+                  <span class="text-xs text-slate-400 font-mono">{{ jp.date_posted }}</span>
+                </div>
+                <h4 class="font-bold text-slate-900 text-sm">{{ jp.title }}</h4>
+                <div class="text-xs text-slate-600 flex flex-wrap gap-1">
+                  <span v-for="ch in jp.channels" :key="ch" class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-mono text-[10px]">
+                    {{ ch }}
+                  </span>
+                </div>
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span class="text-slate-500">👀 {{ jp.views }} views</span>
+                  <span class="font-bold text-slate-900">📥 {{ jp.applications }} applicants</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Requisitions -->
+          <div v-else-if="activeItem === 'requisitions'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Departmental Personnel Requisitions & Budget Clearances</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div v-for="req in recruitmentData.requisitions" :key="req.req_number" class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono font-bold text-slate-900 text-sm">{{ req.req_number }}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">{{ req.status }}</span>
+                </div>
+                <div>
+                  <h4 class="font-bold text-slate-900 text-sm">{{ req.position }}</h4>
+                  <p class="text-slate-500 text-[11px]">{{ req.department }} • {{ req.slots }} Slot(s)</p>
+                </div>
+                <p class="text-slate-600 italic">"{{ req.justification }}"</p>
+                <div class="pt-2 border-t border-slate-200 flex items-center justify-between font-mono text-[11px]">
+                  <span class="text-slate-500">Budget:</span>
+                  <span class="font-bold text-blue-700">{{ req.budget_status }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Applicants & ATS Pipeline -->
+          <div v-else-if="['applicants', 'ats_pipeline'].includes(activeItem)" class="space-y-6">
+            <!-- Pipeline stage cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-6 gap-3">
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase">1. Applied</span>
+                <div class="text-lg font-bold text-slate-900 mt-0.5">18</div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-blue-600 uppercase">2. Screening</span>
+                <div class="text-lg font-bold text-slate-900 mt-0.5">12</div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-purple-600 uppercase">3. Interview</span>
+                <div class="text-lg font-bold text-slate-900 mt-0.5">6</div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-amber-600 uppercase">4. Assessment</span>
+                <div class="text-lg font-bold text-slate-900 mt-0.5">4</div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-indigo-600 uppercase">5. Job Offer</span>
+                <div class="text-lg font-bold text-slate-900 mt-0.5">2</div>
+              </div>
+              <div class="p-3 bg-white rounded-xl border border-slate-200 text-center">
+                <span class="text-[10px] font-bold text-emerald-600 uppercase">6. Hired</span>
+                <div class="text-lg font-bold text-emerald-700 mt-0.5">3</div>
+              </div>
+            </div>
+
+            <!-- Applicants Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700">Applicant Tracking Directory</span>
+                <span class="text-xs text-slate-400 font-mono">{{ recruitmentData.applicants?.length || 0 }} Candidates</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                    <tr>
+                      <th class="px-4 py-3">Applicant ID</th>
+                      <th class="px-4 py-3">Candidate Name</th>
+                      <th class="px-4 py-3">Applied Position</th>
+                      <th class="px-4 py-3">Current Pipeline Stage</th>
+                      <th class="px-4 py-3">Rating</th>
+                      <th class="px-4 py-3">Civil Service PDS Status</th>
+                      <th class="px-4 py-3">Applied Date</th>
+                      <th class="px-4 py-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="app in recruitmentData.applicants" :key="app.id" class="hover:bg-slate-50">
+                      <td class="px-4 py-3 font-mono font-bold text-slate-600">{{ app.id }}</td>
+                      <td class="px-4 py-3">
+                        <div class="font-bold text-slate-900">{{ app.name }}</div>
+                        <div class="text-slate-400 text-[11px] font-mono">{{ app.email }}</div>
+                      </td>
+                      <td class="px-4 py-3 text-slate-700 font-medium">{{ app.position }}</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                          {{ app.stage }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 font-mono font-bold text-amber-600">⭐ {{ app.rating }}</td>
+                      <td class="px-4 py-3">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-700 font-mono">
+                          {{ app.pds_status }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 font-mono text-slate-500">{{ app.applied_at }}</td>
+                      <td class="px-4 py-3 text-right">
+                        <button type="button" class="px-2.5 py-1 rounded bg-black text-white text-[11px] font-semibold hover:bg-slate-800">
+                          Review File
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Interviews & Assessments -->
+          <div v-else-if="['interviews', 'assessments'].includes(activeItem)" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Interviews -->
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                <h3 class="text-sm font-bold text-slate-900">Search Committee Panel Interviews</h3>
+                <div class="space-y-3">
+                  <div v-for="int in recruitmentData.interviews" :key="int.candidate" class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2 text-xs">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-slate-900">{{ int.candidate }}</span>
+                      <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">{{ int.status }}</span>
+                    </div>
+                    <div class="text-slate-600 font-medium">{{ int.position }}</div>
+                    <p class="text-slate-500 text-[11px]">Panel: {{ int.panel }}</p>
+                    <div class="border-t border-slate-200/80 pt-2 flex items-center justify-between font-mono text-[11px]">
+                      <span>🕒 {{ int.datetime }}</span>
+                      <span class="font-semibold text-slate-700">{{ int.modality }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Assessments -->
+              <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                <h3 class="text-sm font-bold text-slate-900">Teaching Demo & Technical Evaluations</h3>
+                <div class="space-y-3">
+                  <div v-for="ass in recruitmentData.assessments" :key="ass.candidate" class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-2 text-xs">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-slate-900">{{ ass.candidate }}</span>
+                      <span class="font-mono font-bold text-emerald-700 text-sm">{{ ass.score }}</span>
+                    </div>
+                    <div class="text-slate-700 font-medium">{{ ass.type }}</div>
+                    <div class="text-slate-500 text-[11px]">Evaluator: {{ ass.evaluator }}</div>
+                    <div class="border-t border-slate-200/80 pt-2 text-emerald-800 font-semibold text-[11px]">
+                      ✓ {{ ass.status }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Job Offers & Pre-employment Requirements & Hire/Onboarding -->
+          <div v-else-if="['job_offers', 'pre_employment_reqs', 'hire_onboarding'].includes(activeItem)" class="space-y-6">
+            <!-- Job Offers -->
+            <div v-if="activeItem === 'job_offers'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h2 class="text-sm font-bold text-slate-900">Official Institutional Job Offers & Compensation Packages</h2>
+              <div v-for="jo in recruitmentData.job_offers" :key="jo.candidate" class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-sm font-bold text-slate-900">{{ jo.candidate }}</span>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">{{ jo.status }}</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Position</span>
+                    <span class="font-bold text-slate-900 font-sans">{{ jo.position }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Salary Grade</span>
+                    <span class="font-bold text-slate-900">{{ jo.salary_grade }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Base Monthly</span>
+                    <span class="font-bold text-emerald-700">{{ jo.monthly_rate }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Target Start</span>
+                    <span class="font-bold text-slate-700">{{ jo.start_date }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pre-employment Requirements Checklist -->
+            <div v-else-if="activeItem === 'pre_employment_reqs'" class="space-y-4">
+              <div v-for="cand in recruitmentData.pre_employment_requirements" :key="cand.candidate" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4 text-xs">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">{{ cand.candidate }}</h3>
+                    <span class="text-slate-500 font-mono">{{ cand.position }}</span>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full font-bold text-[11px] bg-emerald-50 text-emerald-800 border border-emerald-200">
+                    {{ cand.overall_status }}
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div
+                    v-for="(st, req) in cand.checklist"
+                    :key="req"
+                    class="p-2.5 rounded-lg border border-slate-200 flex items-center justify-between"
+                  >
+                    <span class="text-slate-700 font-medium">{{ req }}</span>
+                    <span
+                      class="px-2 py-0.5 rounded text-[10px] font-bold font-mono"
+                      :class="st === 'Verified' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'"
+                    >
+                      {{ st }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hire & Onboarding -->
+            <div v-else-if="activeItem === 'hire_onboarding'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h2 class="text-sm font-bold text-slate-900">New Personnel Onboarding & Provisioning Checklist</h2>
+              <div v-for="ob in recruitmentData.onboarding" :key="ob.employee" class="p-5 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3 text-xs">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-bold text-slate-900 text-sm">{{ ob.employee }} ({{ ob.role }})</h4>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">{{ ob.status }}</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">ID Card</span>
+                    <span class="font-bold text-emerald-700">✓ {{ ob.id_badge }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Biometric DTR</span>
+                    <span class="font-bold text-emerald-700">✓ {{ ob.zkteco_biometric }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Institutional Email</span>
+                    <span class="font-bold text-slate-800">{{ ob.institutional_email }}</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block text-[10px] uppercase">Department Mentor</span>
+                    <span class="font-bold text-slate-800">{{ ob.mentor }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Performance Management Suite (IPCR / OPCR / Ratings) -->
+          <div v-else-if="['performance_dashboard', 'performance_cycles', 'performance_templates', 'performance_plans', 'performance_reviews', 'performance_calibration', 'final_ratings', 'development_plans', 'improvement_plans', 'performance_reports', 'performance_security', 'performance_certification'].includes(activeItem)" class="space-y-6">
+            <!-- Summary Stats for Performance -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase">Active Cycle</span>
+                <div class="text-lg font-bold text-slate-900 mt-1">AY 2026-2027 1st Sem</div>
+                <div class="text-[11px] text-emerald-600 font-semibold mt-1">86% Evaluations Completed</div>
+              </div>
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase">PBB Top Tier Quota</span>
+                <div class="text-lg font-bold text-emerald-700 mt-1">Top 10% Outstanding</div>
+                <div class="text-[11px] text-slate-500 font-mono mt-1">CSC SPMS Compliant</div>
+              </div>
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                <span class="text-xs font-semibold text-slate-400 uppercase">Average Faculty Score</span>
+                <div class="text-lg font-bold text-slate-900 mt-1">4.76 / 5.00</div>
+                <div class="text-[11px] text-purple-600 font-semibold mt-1">Very Satisfactory Grade</div>
+              </div>
+            </div>
+
+            <!-- Final Ratings Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+              <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-700">Official Adjudicated Performance Ratings (SPMS / IPCR)</span>
+                <span class="text-xs text-slate-400 font-mono">CSC Form 87 Certified</span>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                    <tr>
+                      <th class="px-4 py-3">Faculty / Personnel</th>
+                      <th class="px-4 py-3">Position</th>
+                      <th class="px-4 py-3">Department</th>
+                      <th class="px-4 py-3">Numeric Score</th>
+                      <th class="px-4 py-3">Adjectival Rating</th>
+                      <th class="px-4 py-3">Performance-Based Bonus (PBB) Tier</th>
+                      <th class="px-4 py-3">Certified By</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100">
+                    <tr v-for="rt in recruitmentData.final_ratings" :key="rt.employee" class="hover:bg-slate-50">
+                      <td class="px-4 py-3 font-bold text-slate-900">{{ rt.employee }}</td>
+                      <td class="px-4 py-3 text-slate-700 font-medium">{{ rt.position }}</td>
+                      <td class="px-4 py-3 text-slate-600">{{ rt.department }}</td>
+                      <td class="px-4 py-3 font-mono font-bold text-sm text-emerald-700">{{ rt.numeric_score }}</td>
+                      <td class="px-4 py-3">
+                        <span
+                          class="px-2.5 py-0.5 rounded-full text-[10px] font-bold"
+                          :class="rt.adjectival === 'Outstanding' ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900'"
+                        >
+                          ⭐ {{ rt.adjectival }}
+                        </span>
+                      </td>
+                      <td class="px-4 py-3 font-mono text-slate-600">{{ rt.pbb_tier }}</td>
+                      <td class="px-4 py-3 text-slate-500 text-[11px]">{{ rt.certified_by }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. Template Studio & Placeholder Library -->
+          <div v-else-if="['template_studio', 'placeholder_library'].includes(activeItem)" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Templates List -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h3 class="text-sm font-bold text-slate-900">Standard Philippine Civil Service & Institutional Templates</h3>
+              <div class="space-y-3">
+                <div v-for="tpl in recruitmentData.templates" :key="tpl.id" class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1.5 text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="font-mono font-bold text-slate-600">{{ tpl.id }}</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-800">{{ tpl.format }}</span>
+                  </div>
+                  <h4 class="font-bold text-slate-900 text-sm">{{ tpl.title }}</h4>
+                  <div class="text-slate-500 text-[11px]">Category: {{ tpl.category }} • Updated: {{ tpl.last_updated }}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder Library -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+              <h3 class="text-sm font-bold text-slate-900">Dynamic Variable Placeholders Library</h3>
+              <div class="space-y-2.5 text-xs">
+                <div v-for="ph in recruitmentData.placeholders" :key="ph.tag" class="p-3 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between">
+                  <div>
+                    <span class="font-mono font-bold text-blue-700 text-xs">{{ ph.tag }}</span>
+                    <p class="text-slate-500 text-[11px] mt-0.5">{{ ph.description }}</p>
+                  </div>
+                  <span class="text-[11px] font-mono text-slate-400 bg-white px-2 py-1 rounded border border-slate-200">{{ ph.example }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 8. HR Service Requests -->
+          <div v-else-if="activeItem === 'hr_service_requests'" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">Employee HR Service & Document Request Tickets</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 uppercase text-[11px] font-semibold border-b border-slate-100">
+                  <tr>
+                    <th class="px-4 py-3">Ticket ID</th>
+                    <th class="px-4 py-3">Employee</th>
+                    <th class="px-4 py-3">Request Document</th>
+                    <th class="px-4 py-3">Declared Purpose</th>
+                    <th class="px-4 py-3">Requested On</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <tr v-for="sr in recruitmentData.service_requests" :key="sr.id" class="hover:bg-slate-50">
+                    <td class="px-4 py-3 font-mono font-bold text-slate-700">{{ sr.id }}</td>
+                    <td class="px-4 py-3 font-bold text-slate-900">{{ sr.employee }}</td>
+                    <td class="px-4 py-3 font-medium text-slate-800">{{ sr.type }}</td>
+                    <td class="px-4 py-3 text-slate-600">{{ sr.purpose }}</td>
+                    <td class="px-4 py-3 font-mono text-slate-500">{{ sr.date }}</td>
+                    <td class="px-4 py-3">
+                      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                        {{ sr.status }}
+                      </span>
+                    </td>
+                    <td class="px-4 py-3 text-right">
+                      <button type="button" class="px-2.5 py-1 rounded bg-black text-white text-[11px] font-semibold hover:bg-slate-800">
+                        Process
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 9. Cache & Performance & Security & Certification Fallback -->
+          <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
+            <h2 class="text-sm font-bold text-slate-900">{{ getModuleTitle(activeItem) }} • System Security & Operational Status</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+                <span class="text-slate-400 uppercase text-[10px] font-bold">Redis Cache Cluster</span>
+                <div class="font-bold text-slate-900 text-sm">{{ recruitmentData.system_cache?.redis_status || 'Operational' }}</div>
+                <p class="text-slate-500 text-[11px]">Hit Rate: {{ recruitmentData.system_cache?.cache_hit_rate || '98.7%' }}</p>
+              </div>
+              <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+                <span class="text-slate-400 uppercase text-[10px] font-bold">Average Query Latency</span>
+                <div class="font-bold text-emerald-700 text-sm">{{ recruitmentData.system_cache?.query_avg_ms || '1.6 ms' }}</div>
+                <p class="text-slate-500 text-[11px]">Fast indexed MySQL queries</p>
+              </div>
+              <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 space-y-1">
+                <span class="text-slate-400 uppercase text-[10px] font-bold">Accreditation & Compliance</span>
+                <div class="font-bold text-purple-700 text-sm">CSC Level II PRIME-HRM</div>
+                <p class="text-slate-500 text-[11px]">RA 10173 DPA Certified</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======================================================== -->
+        <!-- VIEW 6: DASHBOARD EXECUTIVE OVERVIEW                     -->
+        <!-- ======================================================== -->
+        <div v-else-if="activeItem === 'dashboard'" class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Executive System Dashboard</h1>
+              <span class="text-xs font-mono text-slate-400">PILOT INSTITUTION OVERVIEW • ACADEMIC YEAR 2026-2027</span>
+            </div>
+          </div>
+
+          <!-- 4 Summary KPI Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <button
+              type="button"
+              class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-left hover:border-slate-300 transition"
+              @click="activeItem = 'employees'"
+            >
+              <span class="text-xs font-semibold text-slate-400 uppercase">Total Personnel</span>
+              <div class="text-2xl font-bold text-slate-900 mt-1">7 Staff</div>
+              <div class="text-[11px] text-emerald-600 font-semibold mt-1">100% 201 Verified ➔</div>
+            </button>
+
+            <button
+              type="button"
+              class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-left hover:border-slate-300 transition"
+              @click="activeItem = 'daily_time_records'"
+            >
+              <span class="text-xs font-semibold text-slate-400 uppercase">Biometric DTR</span>
+              <div class="text-2xl font-bold text-slate-900 mt-1">ZK-Teco Sync</div>
+              <div class="text-[11px] text-blue-600 font-semibold mt-1">Terminal 1 Active ➔</div>
+            </button>
+
+            <button
+              type="button"
+              class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-left hover:border-slate-300 transition"
+              @click="activeItem = 'payroll_runs'"
+            >
+              <span class="text-xs font-semibold text-slate-400 uppercase">Last Payroll Run</span>
+              <div class="text-2xl font-bold text-emerald-600 mt-1">₱175,000.00</div>
+              <div class="text-[11px] text-slate-500 font-mono mt-1">100% Parity Verified ➔</div>
+            </button>
+
+            <button
+              type="button"
+              class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-left hover:border-slate-300 transition"
+              @click="activeItem = 'vacancies'"
+            >
+              <span class="text-xs font-semibold text-slate-400 uppercase">Recruitment & ATS</span>
+              <div class="text-2xl font-bold text-slate-900 mt-1">4 Vacancies</div>
+              <div class="text-[11px] text-indigo-600 font-semibold mt-1">View Candidates ➔</div>
+            </button>
           </div>
         </div>
       </main>
+    </div>
+
+    <!-- PDS / 201 FILE MODAL (Philippine Civil Service Form 212 & 201 Viewer) -->
+    <div v-if="selectedPds" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 space-y-4 animate-fadeIn">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">201 / PDS Record: {{ selectedPds.name }}</h3>
+            <span class="text-xs text-slate-500 font-mono">Employee ID: {{ selectedPds.employee_number }} • {{ selectedPds.department }}</span>
+          </div>
+          <button type="button" @click="selectedPds = null" class="text-slate-400 hover:text-slate-600 text-lg">
+            ✕
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">Position Title</span>
+            <span class="font-bold text-slate-900">{{ selectedPds.position }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">Plantilla Code</span>
+            <span class="font-mono font-bold text-slate-900">{{ selectedPds.plantilla_code }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">Monthly Base Salary</span>
+            <span class="font-mono font-bold text-emerald-700 text-sm">₱{{ selectedPds.base_rate }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">Contract Nature</span>
+            <span class="font-semibold text-slate-800">{{ selectedPds.contract_type }} ({{ selectedPds.salary_basis }})</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">BIR Tax Identification (TIN)</span>
+            <span class="font-mono text-slate-700">{{ selectedPds.pds_info?.tin }} (Encrypted)</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">SSS / GSIS Number</span>
+            <span class="font-mono text-slate-700">{{ selectedPds.pds_info?.sss }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">PhilHealth Identification #</span>
+            <span class="font-mono text-slate-700">{{ selectedPds.pds_info?.philhealth }}</span>
+          </div>
+          <div>
+            <span class="text-slate-400 block text-[10px] uppercase">Pag-IBIG / HDMF MID #</span>
+            <span class="font-mono text-slate-700">{{ selectedPds.pds_info?.pagibig }}</span>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
+          <button
+            type="button"
+            class="px-4 py-2 rounded-lg bg-black text-white text-xs font-semibold hover:bg-slate-800"
+            @click="selectedPds = null"
+          >
+            Close 201 File
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- ADD USER / PARTICIPANT MODAL -->
@@ -658,7 +1712,7 @@ interface TenantOption {
   code: string;
 }
 
-// Current logged in user injected from Blade
+// Current logged in user
 const currentUser = ref<CurrentUser>(
   (window as any).HERA_CURRENT_USER || {
     id: 1,
@@ -679,17 +1733,164 @@ const currentUser = ref<CurrentUser>(
   }
 );
 
-// Default to Settings view matching reference design
-const currentSection = ref<string>('settings');
+// Active navigation item (Defaults to 'setting' matching the reference image)
+const activeItem = ref<string>('setting');
 
+// Dropdown expansion state (Default: recruitment open to show new modules immediately)
+const openDropdowns = ref<Record<string, boolean>>({
+  people: false,
+  time_leave: false,
+  payroll: false,
+  recruitment: true,
+});
+
+function toggleDropdown(key: string) {
+  openDropdowns.value[key] = !openDropdowns.value[key];
+}
+
+// ============================================
+// EXACT 9 MODULES FROM USER'S "PEOPLE" IMAGE
+// ============================================
+const peopleModules = [
+  { id: 'employees', label: 'Employees', icon: '👥' },
+  { id: 'pds_201', label: 'PDS / 201 File', icon: '📄' },
+  { id: 'positions', label: 'Positions', icon: '💼' },
+  { id: 'plantilla', label: 'Plantilla', icon: '🏛️' },
+  { id: 'plantilla_report', label: 'Plantilla Report', icon: '📊' },
+  { id: 'compensation', label: 'Compensation', icon: '💳' },
+  { id: 'assignments', label: 'Assignments', icon: '📋' },
+  { id: 'movements_history', label: 'Movements & History', icon: '🔄' },
+  { id: 'personal_changes', label: 'Personal Changes', icon: '✍️' },
+];
+
+// ==================================================
+// EXACT 15 MODULES FROM USER'S "TIME & LEAVE" IMAGE
+// ==================================================
+const timeLeaveModules = [
+  { id: 'attendance_control', label: 'Attendance Control', icon: '⏱️' },
+  { id: 'attendance_exceptions', label: 'Attendance Exceptions', icon: '⚠️' },
+  { id: 'daily_time_records', label: 'Daily Time Records', icon: '📝' },
+  { id: 'monthly_dtr', label: 'Monthly DTR', icon: '🕒' },
+  { id: 'holiday_management', label: 'Holiday Management', icon: '📅' },
+  { id: 'leave_approvals', label: 'Leave Approvals', icon: '🗓️' },
+  { id: 'attendance_setup', label: 'Attendance Setup', icon: '⚙️' },
+  { id: 'dtr_register', label: 'DTR Register', icon: '📒' },
+  { id: 'my_attendance', label: 'My Attendance', icon: '⏱️' },
+  { id: 'leave_overview', label: 'Leave Overview', icon: '📊' },
+  { id: 'leave_register', label: 'Leave Register', icon: '📑' },
+  { id: 'leave_calendar', label: 'Leave Calendar', icon: '🗓️' },
+  { id: 'my_leave', label: 'My Leave', icon: '🏖️' },
+  { id: 'overtime', label: 'Overtime', icon: '⏳' },
+  { id: 'secure_attendance', label: 'Secure Attendance', icon: '🔒' },
+];
+
+// ==============================================
+// EXACT 10 MODULES FROM USER'S "PAYROLL" IMAGE
+// ==============================================
+const payrollModules = [
+  { id: 'payroll_rules', label: 'Payroll Rules', icon: '📜' },
+  { id: 'payroll_simulator', label: 'Payroll Simulator', icon: '🧪' },
+  { id: 'payroll_runs', label: 'Payroll Runs', icon: '⚡' },
+  { id: 'payroll_register', label: 'Payroll Register', icon: '📖' },
+  { id: 'payroll_approvals', label: 'Payroll Approvals', icon: '✍️' },
+  { id: 'payroll_payslips', label: 'Payroll Payslips', icon: '🧾' },
+  { id: 'benefits', label: 'Benefits', icon: '🎁' },
+  { id: 'employee_loans', label: 'Employee Loans', icon: '🏦' },
+  { id: 'remittances', label: 'Remittances', icon: '⚖️' },
+  { id: 'bank_accounts', label: 'Bank Accounts', icon: '💳' },
+];
+
+// ========================================================
+// EXACT 31 MODULES FROM USER'S "RECRUITMENT" IMAGES 4 & 5
+// ========================================================
+const recruitmentModules = [
+  { id: 'vacancies', label: 'Vacancies', icon: '📋' },
+  { id: 'recruitment', label: 'Recruitment', icon: '🔲' },
+  { id: 'requisitions', label: 'Requisitions', icon: '📑' },
+  { id: 'job_postings', label: 'Job Postings', icon: '📢' },
+  { id: 'applicants', label: 'Applicants', icon: '🗂️' },
+  { id: 'ats_pipeline', label: 'ATS Pipeline', icon: '🔻' },
+  { id: 'interviews', label: 'Interviews', icon: '💬' },
+  { id: 'assessments', label: 'Assessments', icon: '☑️' },
+  { id: 'job_offers', label: 'Job Offers', icon: '🤝' },
+  { id: 'pre_employment_reqs', label: 'Pre-employment Requirements', icon: '📝' },
+  { id: 'hire_onboarding', label: 'Hire & Onboarding', icon: '👤' },
+  { id: 'reports_analytics', label: 'Reports & Analytics', icon: '📊' },
+  { id: 'performance_dashboard', label: 'Performance Dashboard', icon: '🔲' },
+  { id: 'performance_cycles', label: 'Performance Cycles', icon: '🔄' },
+  { id: 'performance_templates', label: 'Performance Templates', icon: '📑' },
+  { id: 'performance_plans', label: 'Performance Plans', icon: '📈' },
+  { id: 'performance_reviews', label: 'Performance Reviews', icon: '📝' },
+  { id: 'performance_calibration', label: 'Performance Calibration', icon: '⚖️' },
+  { id: 'final_ratings', label: 'Final Ratings', icon: '⭐' },
+  { id: 'development_plans', label: 'Development Plans', icon: '📈' },
+  { id: 'improvement_plans', label: 'Improvement Plans', icon: '⚠️' },
+  { id: 'performance_reports', label: 'Performance Reports', icon: '📊' },
+  { id: 'performance_security', label: 'Performance Security', icon: '🛡️' },
+  { id: 'performance_certification', label: 'Performance Certification', icon: '📜' },
+  { id: 'template_studio', label: 'Template Studio', icon: '📄' },
+  { id: 'placeholder_library', label: 'Placeholder Library', icon: '📚' },
+  { id: 'hr_service_requests', label: 'HR Service Requests', icon: '📋' },
+  { id: 'cache_performance', label: 'Cache & Performance', icon: '⚡' },
+  { id: 'pipeline_settings', label: 'Pipeline Settings', icon: '⚙️' },
+  { id: 'recruitment_security', label: 'Recruitment Security', icon: '🎯' },
+  { id: 'recruitment_certification', label: 'Recruitment Certification', icon: '🏅' },
+];
+
+function isPeopleModule(id: string): boolean {
+  return peopleModules.some(m => m.id === id);
+}
+
+function isTimeLeaveModule(id: string): boolean {
+  return timeLeaveModules.some(m => m.id === id);
+}
+
+function isPayrollModule(id: string): boolean {
+  return payrollModules.some(m => m.id === id);
+}
+
+function isRecruitmentModule(id: string): boolean {
+  return recruitmentModules.some(m => m.id === id);
+}
+
+function getModuleTitle(id: string): string {
+  const all = [...peopleModules, ...timeLeaveModules, ...payrollModules, ...recruitmentModules];
+  const found = all.find(m => m.id === id);
+  return found ? found.label : id;
+}
+
+// Sub-tabs for Settings page
 const activeSubTab = ref('users');
 const searchQuery = ref('');
 const activeActionDropdown = ref<number | null>(null);
 const showAddModal = ref(false);
+const selectedPds = ref<any | null>(null);
 
 const users = ref<UserRecord[]>([]);
 const roles = ref<RoleRecord[]>([]);
 const tenants = ref<TenantOption[]>([]);
+
+// Module data containers
+const peopleData = ref<any>({ employees: [], plantilla: [], positions: [], assignments: [], movements: [] });
+const timeLeaveData = ref<any>({ dtr_logs: [], leave_requests: [], leave_balances: [], holidays: [], overtime: [] });
+const payrollSuiteData = ref<any>({ payroll_runs: [], remittances: [], loans: [], bank_accounts: [] });
+const recruitmentData = ref<any>({
+  vacancies: [],
+  requisitions: [],
+  job_postings: [],
+  applicants: [],
+  interviews: [],
+  assessments: [],
+  job_offers: [],
+  pre_employment_requirements: [],
+  onboarding: [],
+  performance_cycles: [],
+  final_ratings: [],
+  templates: [],
+  placeholders: [],
+  service_requests: [],
+  system_cache: {},
+});
 
 const newUser = ref({
   name: '',
@@ -711,8 +1912,21 @@ async function loadData() {
         newUser.value.tenant_id = tenants.value[0].id;
       }
     }
+
+    // Load People, Time & Leave, Payroll, Recruitment modules
+    const [pRes, tRes, pyRes, recRes] = await Promise.all([
+      fetch('/api/v1/modules/people'),
+      fetch('/api/v1/modules/time-leave'),
+      fetch('/api/v1/modules/payroll-suite'),
+      fetch('/api/v1/modules/recruitment'),
+    ]);
+
+    if (pRes.ok) peopleData.value = await pRes.json();
+    if (tRes.ok) timeLeaveData.value = await tRes.json();
+    if (pyRes.ok) payrollSuiteData.value = await pyRes.json();
+    if (recRes.ok) recruitmentData.value = await recRes.json();
   } catch (e) {
-    console.error('Failed to load users', e);
+    console.error('Failed to load modules data', e);
   }
 }
 
